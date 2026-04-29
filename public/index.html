@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LectureLens AI</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="brand-mark">LL</div>
+        <div>
+          <p class="eyebrow">AI YouTube Lecture Summarizer</p>
+          <h1 id="page-title">LectureLens AI</h1>
+          <p class="lede">Turn long lectures into clean summaries, key points, and timestamped study notes.</p>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Summarizer workspace">
+        <form class="input-panel" id="summary-form">
+          <label for="youtube-url">YouTube link</label>
+          <div class="input-row">
+            <input
+              id="youtube-url"
+              name="url"
+              type="url"
+              placeholder="https://www.youtube.com/watch?v=..."
+              autocomplete="off"
+              required
+            />
+            <label class="select-field" for="summary-language">
+              <span>Language</span>
+              <select id="summary-language" name="language">
+                <option value="english">English</option>
+                <option value="hindi">Hindi</option>
+              </select>
+            </label>
+            <button type="submit" id="submit-button">Summarize</button>
+          </div>
+          <p class="status" id="status" role="status"></p>
+        </form>
+
+        <aside class="video-panel" id="video-panel" hidden>
+          <img id="thumbnail" alt="YouTube video thumbnail" />
+          <div>
+            <p class="eyebrow">Video</p>
+            <p id="video-id"></p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="results" id="results" hidden>
+        <div class="result-section">
+          <div class="section-heading">
+            <p class="eyebrow">Summary</p>
+            <span id="meta"></span>
+          </div>
+          <p id="summary"></p>
+        </div>
+
+        <div class="result-grid">
+          <section class="result-section" aria-labelledby="key-points-heading">
+            <p class="eyebrow" id="key-points-heading">Key Points</p>
+            <ul id="key-points"></ul>
+          </section>
+
+          <section class="result-section" aria-labelledby="timestamps-heading">
+            <p class="eyebrow" id="timestamps-heading">Timestamps</p>
+            <ol class="timeline" id="timestamps"></ol>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

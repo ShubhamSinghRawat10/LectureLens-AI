@@ -1,0 +1,21 @@
+{
+  "name": "lecturelens-ai",
+  "version": "1.0.0",
+  "description": "AI YouTube lecture summarizer with timestamps using Node, Express, YouTube transcripts, and Gemini.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "check": "node --check src/server.js && node --check src/utils.js && node --check src/summarizer.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "@google/genai": "^1.32.0",
+    "youtube-transcript": "^1.3.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
