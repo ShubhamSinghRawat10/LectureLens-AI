@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LectureLens AI</title>
+    <meta name="description" content="AI-powered YouTube lecture summarizer. Get clean summaries, key points, study notes, and timestamped notes from any lecture video." />
+    <title>LectureLens AI — YouTube Lecture Summarizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -13,7 +17,7 @@
         <div>
           <p class="eyebrow">AI YouTube Lecture Summarizer</p>
           <h1 id="page-title">LectureLens AI</h1>
-          <p class="lede">Turn long lectures into clean summaries, key points, and timestamped study notes.</p>
+          <p class="lede">Turn long lectures into clean summaries, key points, study notes, and timestamped notes.</p>
         </div>
       </section>
 
@@ -50,7 +54,14 @@
         </aside>
       </section>
 
+      <!-- Fallback warning banner -->
+      <div class="fallback-banner" id="fallback-banner" hidden>
+        <span class="fallback-icon">⚠️</span>
+        <p id="fallback-notice"></p>
+      </div>
+
       <section class="results" id="results" hidden>
+        <!-- Summary -->
         <div class="result-section">
           <div class="section-heading">
             <p class="eyebrow">Summary</p>
@@ -60,15 +71,39 @@
         </div>
 
         <div class="result-grid">
+          <!-- Key Points -->
           <section class="result-section" aria-labelledby="key-points-heading">
             <p class="eyebrow" id="key-points-heading">Key Points</p>
             <ul id="key-points"></ul>
+            <p class="empty-state" id="key-points-empty" hidden>No key points extracted.</p>
           </section>
 
+          <!-- Timestamps -->
           <section class="result-section" aria-labelledby="timestamps-heading">
             <p class="eyebrow" id="timestamps-heading">Timestamps</p>
             <ol class="timeline" id="timestamps"></ol>
+            <p class="empty-state" id="timestamps-empty" hidden>No timestamps available.</p>
           </section>
+        </div>
+
+        <!-- Study Notes + Important Concepts -->
+        <div class="result-grid" id="extras-grid" hidden>
+          <section class="result-section" aria-labelledby="study-notes-heading">
+            <p class="eyebrow" id="study-notes-heading">📝 Study Notes</p>
+            <ul id="study-notes" class="study-notes-list"></ul>
+          </section>
+
+          <section class="result-section" aria-labelledby="concepts-heading">
+            <p class="eyebrow" id="concepts-heading">💡 Important Concepts</p>
+            <ul id="important-concepts" class="concepts-list"></ul>
+          </section>
+        </div>
+
+        <!-- Generation Info -->
+        <div class="generation-info" id="generation-info" hidden>
+          <span id="gen-model"></span>
+          <span id="gen-time"></span>
+          <span id="gen-language"></span>
         </div>
       </section>
     </main>

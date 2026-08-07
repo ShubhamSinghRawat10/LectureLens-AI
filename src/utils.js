@@ -51,21 +51,44 @@ export function cleanTranscriptText(text = "") {
 }
 
 export function normalizeTranscript(rawTranscript) {
+  // The youtube-transcript library returns { text, offset, duration, lang }.
+  // InnerTube/srv3 path: offset & duration are in MILLISECONDS (large numbers).
+  // Classic <text> path: offset & duration are in SECONDS (small numbers).
+  // We detect which format by checking the max offset value.
+  const isMilliseconds = detectMilliseconds(rawTranscript);
+
   return rawTranscript
     .map((item) => {
-      const hasStartSeconds = Number.isFinite(item.start);
-      const start = hasStartSeconds ? item.start : (Number(item.offset) || 0) / 1000;
-      const duration = hasStartSeconds
-        ? Number(item.duration) || 0
-        : (Number(item.duration) || 0) / 1000;
+      const rawOffset = Number(item.offset) || 0;
+      const rawDuration = Number(item.duration) || 0;
+      const divisor = isMilliseconds ? 1000 : 1;
 
       return {
         text: cleanTranscriptText(item.text),
-        start: Math.max(0, start),
-        duration: Math.max(0, duration)
+        start: Math.max(0, rawOffset / divisor),
+        duration: Math.max(0, rawDuration / divisor)
       };
     })
     .filter((item) => item.text.length > 0);
+}
+
+function detectMilliseconds(rawTranscript) {
+  // If any offset value is > 10000, it's almost certainly milliseconds.
+  // A 10000-second offset would be ~2.7 hours, which is extremely rare,
+  // while a 10000ms offset is just 10 seconds into the video.
+  for (const item of rawTranscript) {
+    const offset = Number(item.offset) || 0;
+    if (offset > 10000) return true;
+  }
+
+  // Also check duration: ms durations are typically 2000-8000,
+  // while second durations are typically 2-8.
+  for (const item of rawTranscript) {
+    const duration = Number(item.duration) || 0;
+    if (duration > 500) return true;
+  }
+
+  return false;
 }
 
 export function transcriptToText(transcript) {
@@ -89,7 +112,7 @@ export function formatTimestamp(seconds) {
     .join(":");
 }
 
-export function chunkTranscript(transcript, maxWords = 900) {
+export function chunkTranscript(transcript, maxWords = 2000) {
   const chunks = [];
   let currentSegments = [];
   let currentWordCount = 0;
